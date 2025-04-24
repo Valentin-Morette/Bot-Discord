@@ -1,21 +1,28 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const dotenv = require('dotenv');
+import { EmbedBuilder, AttachmentBuilder, Client, GatewayIntentBits } from 'discord.js';
+import dotenv from 'dotenv';
+import { commands } from './variables.js';
+import { slashCommande } from './functions.js';
 
 dotenv.config();
 
+slashCommande(commands);
+
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
 });
 
-client.on('ready', () => {
-  console.log('Ready!');
-});
+client.on('ready', () => {});
 
-// Le bot écoute les messages sur le serveur
 client.on('messageCreate', (message) => {});
+
+client.on('interactionCreate', async (interaction) => {
+	if (interaction.isButton()) {
+		return;
+	}
+
+	if (interaction.isCommand()) {
+		return;
+	}
+});
 
 client.login(process.env.TOKEN);
